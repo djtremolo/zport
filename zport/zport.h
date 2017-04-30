@@ -4,7 +4,7 @@
 #include "stdint.h"
 #include "stdbool.h"
 
-#include "ztarget.h"
+#include "../common/ztarget.h"
 
 typedef struct zport_t zport_t;
 typedef struct zport_t
