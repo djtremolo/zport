@@ -3,16 +3,20 @@
 #include "stdio.h"
 
 
-void main()
+int main(int argc, char* argv[]);
+
+int main(int argc, char* argv[])
 {
-    int x,y, ans;
+    zport_t *nodeA = zportCreate(0);
+    zport_t *nodeB = zportCreate(1);
 
-    x= 10;
-    y = 22;
+    if(nodeA && nodeB)
+    {
+        nodeA->run(nodeA);
+        nodeB->run(nodeB);
+    }
 
-    ans = zportadd(x,y);
+    printf("DONE\r\n");
 
-    printf("%d + %d = %d\r\n", x,y, ans);
-
-
+    return 0;
 }
