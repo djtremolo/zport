@@ -3,7 +3,7 @@ OSI L4 Transport protocol for embedded systems. Supports multi-channel input buf
 
 ## Interfaces
 
-### zbuffer
+### zchannel
 
 ## Target adaptation
 
