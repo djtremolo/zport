@@ -1,10 +1,7 @@
 #ifndef __ZCHANNEL_H__
 #define __ZCHANNEL_H__
 
-#include "stdint.h"
-#include "stdbool.h"
-
-#include "../common/ztarget.h"
+#include "ztarget.h"
 
 typedef struct zchannel_t zchannel_t;
 typedef struct zchannel_t
