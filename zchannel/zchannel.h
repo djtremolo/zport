@@ -28,12 +28,14 @@ SOFTWARE.
 #include "ztarget.h"
 
 typedef struct zchannel_t zchannel_t;
+
+extern zchannel_t* const zchannelCreate(uint16_t index);
+
 typedef struct zchannel_t
 {
     int (*run)(zchannel_t *inst);
 } zchannel_t;
 
-extern zchannel_t* zchannelCreate(uint16_t index);
 
 
 #endif

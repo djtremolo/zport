@@ -43,13 +43,12 @@ typedef struct
 } zchannelPrivate_t;
 
 
+static int myRun(zchannel_t* const inst);
+
+static const zchannel_t publicAPI = {.run=&myRun};
 static zchannelPrivate_t instances[ZCHANNEL_INSTANCES_COUNT];
 
-
-static int myRun(zchannel_t *inst);
-
-
-zchannel_t* zchannelCreate(uint16_t index)
+zchannel_t* const zchannelCreate(uint16_t index)
 {
     zchannel_t *inst = NULL;
 
@@ -57,7 +56,7 @@ zchannel_t* zchannelCreate(uint16_t index)
     {
         zchannelPrivate_t *prvInst = &(instances[index]);
 
-        prvInst->publicAPI.run = &myRun;
+        memcpy(&(prvInst->publicAPI), (void*)&publicAPI, sizeof(zchannel_t));
 
         prvInst->myIndex = index;   
 
@@ -67,7 +66,7 @@ zchannel_t* zchannelCreate(uint16_t index)
     return inst;
 }
 
-int myRun(zchannel_t *inst)
+int myRun(zchannel_t* const inst)
 {
     zchannelPrivate_t *prvInst = (zchannelPrivate_t*)inst;
     

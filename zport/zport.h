@@ -29,11 +29,11 @@ SOFTWARE.
 
 typedef struct zport_t zport_t;
 
-extern zport_t* zportCreate(uint16_t index);
+extern zport_t* const zportCreate(uint16_t index);
 
 typedef struct zport_t
 {
-    int (*run)(zport_t *inst);
+    int (* const run)(zport_t* const inst);
 } zport_t;
 
 

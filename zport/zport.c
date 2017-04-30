@@ -43,13 +43,13 @@ typedef struct
 } zportPrivate_t;
 
 
-static int myRun(zport_t *inst);
+static int myRun(zport_t* const inst);
 
-zport_t publicAPI = {.run=&myRun};
+static const zport_t publicAPI = {.run=&myRun};
 static zportPrivate_t instances[ZPORT_INSTANCES_COUNT];
 
 
-zport_t* zportCreate(uint16_t index)
+zport_t* const zportCreate(uint16_t index)
 {
     zport_t *inst = NULL;
 
@@ -57,8 +57,7 @@ zport_t* zportCreate(uint16_t index)
     {
         zportPrivate_t *prvInst = &(instances[index]);
 
-        //prvInst->publicAPI.run = &myRun;
-        memcpy(&(prvInst->publicAPI), &publicAPI, sizeof(zport_t));
+        memcpy(&(prvInst->publicAPI), (void*)&publicAPI, sizeof(zport_t));
 
         prvInst->myIndex = index;   
 
@@ -68,7 +67,7 @@ zport_t* zportCreate(uint16_t index)
     return inst;
 }
 
-int myRun(zport_t *inst)
+int myRun(zport_t* const inst)
 {
     zportPrivate_t *prvInst = (zportPrivate_t*)inst;
     

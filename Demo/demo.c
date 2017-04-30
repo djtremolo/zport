@@ -33,8 +33,8 @@ int main(int argc, char* argv[]);
 int main(int argc, char* argv[])
 {
     zchannel_t *ch = zchannelCreate(0);
-    zport_t *nodeA = zportCreate(0);
-    zport_t *nodeB = zportCreate(1);
+    zport_t* const nodeA = zportCreate(0);
+    zport_t* const nodeB = zportCreate(1);
 
     if(nodeA && nodeB && ch)
     {
