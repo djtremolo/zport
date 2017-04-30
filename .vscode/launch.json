@@ -5,7 +5,7 @@
             "name": "Debug",
             "type": "gdb",
             "request": "launch",
-            "target": "./build/ninja/Demo/zportDemo.exe",
+            "target": "./build/ninja/Demo/zportDemo",
             "cwd": "${workspaceRoot}"
         }
     ]
