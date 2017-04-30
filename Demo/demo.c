@@ -10,7 +10,7 @@ void main()
     x= 10;
     y = 22;
 
-    ans = helloadd(x,y);
+    ans = zportadd(x,y);
 
     printf("%d + %d = %d\r\n", x,y, ans);
 
