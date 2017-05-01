@@ -37,6 +37,9 @@ SOFTWARE.
 #define ZCHANNEL_INSTANCES_COUNT    2
 
 
+#define ZCHANNEL_MSG_MAX            1
+
+
 void* memcpy(void *dst, void *src, size_t sz);
 
 #endif

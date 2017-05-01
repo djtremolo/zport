@@ -32,16 +32,18 @@ int main(int argc, char* argv[]);
 
 int main(int argc, char* argv[])
 {
-    zchannel_t* const ch = zchannelCreate(0);
-    zport_t* const nodeA = zportCreate(0);
-    zport_t* const nodeB = zportCreate(1);
+    zchannel_t* const ch0 = zchannelCreate(0);
+    zchannel_t* const ch1 = zchannelCreate(1);
+    zport_t* const nodeA = zportCreate(0, ch0);
+    zport_t* const nodeB = zportCreate(1, ch1);
 
-    if(nodeA && nodeB && ch)
+    if(nodeA && nodeB && ch0 && ch1)
     {
         nodeA->run(nodeA);
         nodeB->run(nodeB);
 
-        ch->run(ch);
+        ch0->run(ch0);
+        ch1->run(ch1);
     }
 
     printf("DONE\r\n");

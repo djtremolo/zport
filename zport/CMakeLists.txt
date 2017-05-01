@@ -6,4 +6,4 @@ add_library (zport zport.c)
 # when other libraries or executables link to Hello
 target_include_directories (zport PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 
-target_link_libraries (zport LINK_PUBLIC zcommon)
+target_link_libraries (zport LINK_PUBLIC zcommon zchannel)

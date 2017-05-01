@@ -32,7 +32,20 @@ SOFTWARE.
 #define DBGPRINT()
 #endif
 
+typedef enum
+{
+    ZCHANNEL_MSG_STATE_FREE = 0,
+    ZCHANNEL_MSG_STATE_READY_TO_BE_SENT,
+    ZCHANNEL_MSG_STATE_RESERVED   
+} zchannelMessageState_t;
 
+
+typedef struct
+{
+    zchannelMessageState_t state;
+    uint8_t buf[ZCHANNEL_MSG_MAX];
+    uint16_t length;
+} zchannelMessage_t;
 
 typedef struct
 {
@@ -40,12 +53,19 @@ typedef struct
 
     /*private members*/
     uint16_t myIndex;
+    zchannelMessage_t myMessage;
 } zchannelPrivate_t;
 
 
+/*method implementations*/
 static int myRun(zchannel_t* const inst);
+static zchannelMessageHandle_t const myGetOutgoingMessage(zchannel_t* const inst, uint8_t** bufPtr, uint16_t *bytes);
+static void myReleaseMessage(zchannel_t* const inst, zchannelMessageHandle_t const handle);
 
-static const zchannel_t publicAPI = {.run=&myRun};
+/*public interface definition*/
+static const zchannel_t publicAPI = {.run=&myRun, .getOutgoingMessage=&myGetOutgoingMessage, .releaseMessage=&myReleaseMessage};
+
+/*instance list (allocated staticly to avoid dynamic allocation)*/
 static zchannelPrivate_t instances[ZCHANNEL_INSTANCES_COUNT];
 
 zchannel_t* const zchannelCreate(uint16_t index)
@@ -66,7 +86,7 @@ zchannel_t* const zchannelCreate(uint16_t index)
     return inst;
 }
 
-int myRun(zchannel_t* const inst)
+static int myRun(zchannel_t* const inst)
 {
     zchannelPrivate_t* const prvInst = (zchannelPrivate_t* const)inst;
 
@@ -75,16 +95,68 @@ int myRun(zchannel_t* const inst)
     return 0;
 }
 
-uint8_t* const myGetOutgoingMessage(zchannel_t* const inst, uint16_t *bytes)
+static zchannelMessageHandle_t const myGetOutgoingMessage(zchannel_t* const inst, uint8_t** bufPtr, uint16_t *bytes)
 {
-    uint8_t *msg = NULL;
+    zchannelMessageHandle_t hnd = NULL;
     zchannelPrivate_t* const prvInst = (zchannelPrivate_t* const)inst;
-    
+
+    DBGPRINT("zchannel[%d]: myGetOutgoingMessage called\r\n", prvInst->myIndex);
+
     if(prvInst)
     {
-        /*TODO!!!*/
+        zchannelMessage_t *m = &(prvInst->myMessage);
 
+        if(m->state == ZCHANNEL_MSG_STATE_READY_TO_BE_SENT)
+        {
+            m->state = ZCHANNEL_MSG_STATE_RESERVED;
+            *bytes = m->length;
+            *bufPtr = m->buf;
+
+            hnd = (zchannelMessageHandle_t)m;
+        }
     }
 
-    return msg;
+    return hnd;
+}
+
+static void myReleaseMessage(zchannel_t* const inst, zchannelMessageHandle_t const handle)
+{
+    zchannelPrivate_t* const prvInst = (zchannelPrivate_t* const)inst;
+
+    DBGPRINT("zchannel[%d]: myReleaseMessage called\r\n", prvInst->myIndex);
+   
+    if(prvInst)
+    {
+        zchannelMessage_t *m = (zchannelMessage_t*)handle;
+
+        if(m)
+        {
+            m->state = ZCHANNEL_MSG_STATE_FREE;
+        }
+    }
+
+    return;
+}
+
+
+static int mySetOutgoingMessage(zchannel_t* const inst, uint8_t const *buf, uint16_t len)
+{
+    int ret = -1;
+    zchannelPrivate_t* const prvInst = (zchannelPrivate_t* const)inst;
+
+    DBGPRINT("zchannel[%d]: mySetOutgoingMessage called\r\n", prvInst->myIndex);
+
+    if(prvInst)
+    {
+        zchannelMessage_t *m = &(prvInst->myMessage);
+
+        if(m->state == ZCHANNEL_MSG_STATE_FREE)
+        {
+            /*TODO*/
+            m->state = ZCHANNEL_MSG_STATE_READY_TO_BE_SENT;
+            ret = 0;
+        }
+    }
+
+    return ret;
 }

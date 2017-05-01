@@ -39,7 +39,7 @@ typedef struct
 
     /*private members*/
     uint16_t myIndex;
-    uint16_t state;
+    zchannel_t *myChannel;
 } zportPrivate_t;
 
 
@@ -49,19 +49,23 @@ static const zport_t publicAPI = {.run=&myRun};
 static zportPrivate_t instances[ZPORT_INSTANCES_COUNT];
 
 
-zport_t* const zportCreate(uint16_t index)
+zport_t* const zportCreate(uint16_t index, zchannel_t* const zch)
 {
     zport_t *inst = NULL;
 
     if(index < ZPORT_INSTANCES_COUNT)
     {
-        zportPrivate_t *prvInst = &(instances[index]);
+        if(zch)
+        {
+            zportPrivate_t *prvInst = &(instances[index]);
 
-        memcpy(&(prvInst->publicAPI), (void*)&publicAPI, sizeof(zport_t));
+            memcpy(&(prvInst->publicAPI), (void*)&publicAPI, sizeof(zport_t));
 
-        prvInst->myIndex = index;   
+            prvInst->myIndex = index;  
+            prvInst->myChannel = zch; 
 
-        inst = &(prvInst->publicAPI);
+            inst = &(prvInst->publicAPI);
+        }
     }
 
     return inst;

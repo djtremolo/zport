@@ -27,6 +27,8 @@ SOFTWARE.
 
 #include "ztarget.h"
 
+typedef void* zchannelMessageHandle_t;
+
 typedef struct zchannel_t zchannel_t;
 
 extern zchannel_t* const zchannelCreate(uint16_t index);
@@ -34,6 +36,9 @@ extern zchannel_t* const zchannelCreate(uint16_t index);
 typedef struct zchannel_t
 {
     int (* const run)(zchannel_t *inst);
+    const zchannelMessageHandle_t (* const getOutgoingMessage)(zchannel_t* const inst, uint8_t** bufPtr, uint16_t *bytes);
+    void (* const releaseMessage)(zchannel_t* const inst, zchannelMessageHandle_t const handle);
+
 } zchannel_t;
 
 
