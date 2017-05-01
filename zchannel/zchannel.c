@@ -68,10 +68,23 @@ zchannel_t* const zchannelCreate(uint16_t index)
 
 int myRun(zchannel_t* const inst)
 {
-    zchannelPrivate_t *prvInst = (zchannelPrivate_t*)inst;
-    
+    zchannelPrivate_t* const prvInst = (zchannelPrivate_t* const)inst;
+
     DBGPRINT("zchannel[%d]: myRun called\r\n", prvInst->myIndex);
 
     return 0;
 }
 
+uint8_t* const myGetOutgoingMessage(zchannel_t* const inst, uint16_t *bytes)
+{
+    uint8_t *msg = NULL;
+    zchannelPrivate_t* const prvInst = (zchannelPrivate_t* const)inst;
+    
+    if(prvInst)
+    {
+        /*TODO!!!*/
+
+    }
+
+    return msg;
+}
