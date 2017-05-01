@@ -33,7 +33,7 @@ extern zchannel_t* const zchannelCreate(uint16_t index);
 
 typedef struct zchannel_t
 {
-    int (*run)(zchannel_t *inst);
+    int (* const run)(zchannel_t *inst);
 } zchannel_t;
 
 
