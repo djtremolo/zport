@@ -42,15 +42,17 @@ typedef struct
 
 /*method prototypes*/
 static int myRun(zport_t* const inst);
-static zportZeroCopyHandle_t myZcReserve(zport_t* const inst);
+static const zportZeroCopyHandle_t myZcReserve(zport_t* const inst, const uint8_t** bufPtr, uint16_t* const lenPtr);
 static int myZcSend(zport_t* const inst, zportZeroCopyHandle_t const hnd);
-static zportZeroCopyHandle_t myZcReceive(zport_t* const inst);
+static const zportZeroCopyHandle_t myZcReceive(zport_t* const inst, const uint8_t** bufPtr, uint16_t* const lenPtr);
 static int myZcRelease(zport_t* const inst, zportZeroCopyHandle_t const hnd);
+
+
 static int mySend(zport_t* const inst, uint8_t* const buf, uint16_t len);
 static int myReceive(zport_t* const inst, uint8_t** const bufPtr, uint16_t *lenPtr);
 
 /*definition of the user API*/
-static const zport_t publicAPI = {.run=&myRun, .zcReserve=&myZcReserve, .zcSend=&myZcSend, .zcReserve=&myZcReceive, .zcRelease=&myZcRelease, .send=&mySend, .receive=&myReceive};
+static const zport_t publicAPI = {.run=&myRun, .zcReserve=&myZcReserve, .zcSend=&myZcSend, .zcReceive=&myZcReceive, .zcRelease=&myZcRelease, .send=&mySend, .receive=&myReceive};
 
 /*storage area for the zport instances*/
 static zportPrivate_t instances[ZPORT_INSTANCES_COUNT];
@@ -92,42 +94,70 @@ static int myRun(zport_t* const inst)
     return 0;
 }
 
-static zportZeroCopyHandle_t myZcReserve(zport_t* const inst)
+static const zportZeroCopyHandle_t myZcReserve(zport_t* const inst, const uint8_t** bufPtr, uint16_t* const lenPtr)
 {
+    zportPrivate_t* const prvInst = (zportPrivate_t*)inst;
     zportZeroCopyHandle_t hnd = NULL;
+
+    static uint8_t debug[128] = "aabeeceedee";
+
+    DBGPRINT("zport[%d]: myZcReserve called\r\n", prvInst->myIndex);
+
+    *bufPtr = &(debug[0]);
+    *lenPtr = 128;
 
     return hnd;
 }
 
 static int myZcSend(zport_t* const inst, zportZeroCopyHandle_t const hnd)
 {
+    zportPrivate_t* const prvInst = (zportPrivate_t*)inst;
     int ret = -1;
+
+    DBGPRINT("zport[%d]: myZcSend called\r\n", prvInst->myIndex);
 
     return ret;
 }
 
-static zportZeroCopyHandle_t myZcReceive(zport_t* const inst)
+static const zportZeroCopyHandle_t myZcReceive(zport_t* const inst, const uint8_t** bufPtr, uint16_t* const lenPtr)
 {
+    zportPrivate_t* const prvInst = (zportPrivate_t*)inst;
     zportZeroCopyHandle_t hnd = NULL;
+
+    DBGPRINT("zport[%d]: myZcReceive called\r\n", prvInst->myIndex);
+    
+    *bufPtr = NULL;
+    *lenPtr = 0;
 
     return hnd;
 }
 
 static int myZcRelease(zport_t* const inst, zportZeroCopyHandle_t const hnd)
 {
+    zportPrivate_t* const prvInst = (zportPrivate_t*)inst;
+    int ret = -1;
 
+    DBGPRINT("zport[%d]: myZcRelease called\r\n", prvInst->myIndex);
+
+    return ret;
 }
 
 static int mySend(zport_t* const inst, uint8_t* const buf, uint16_t len)
 {
+    zportPrivate_t* const prvInst = (zportPrivate_t*)inst;
     int ret = -1;
+
+    DBGPRINT("zport[%d]: mySend called\r\n", prvInst->myIndex);
 
     return ret;
 }
 
 static int myReceive(zport_t* const inst, uint8_t** const bufPtr, uint16_t *lenPtr)
 {
+    zportPrivate_t* const prvInst = (zportPrivate_t*)inst;
     int ret = -1;
+
+    DBGPRINT("zport[%d]: myReceive called\r\n", prvInst->myIndex);
 
     return ret;
 }

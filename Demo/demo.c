@@ -24,7 +24,7 @@ SOFTWARE.
 
 #include "zport.h"
 #include "zbuffer.h"
-
+#include "stdlib.h"
 #include "stdio.h"
 
 
@@ -39,6 +39,14 @@ int main(int argc, char* argv[])
 
     if(nodeA && nodeB && buf0 && buf1)
     {
+        const uint8_t* msg;
+        uint16_t maxLen;
+        const zportZeroCopyHandle_t zcHnd = nodeA->zcReserve(nodeA, &msg, &maxLen);
+
+        printf("hnd = 0x%08X, msg = 0x%08X, maxLen = %d\r\n", msg, maxLen);
+
+        nodeA->zcSend(nodeA, zcHnd);
+
         nodeA->run(nodeA);
         nodeB->run(nodeB);
     }

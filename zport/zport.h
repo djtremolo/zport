@@ -38,9 +38,9 @@ extern zport_t* const zportCreate(uint16_t index, zbuffer_t* const zch);
 typedef struct zport_t
 {
     int (* const run)(zport_t* const inst);
-    zportZeroCopyHandle_t (* const zcReserve)(zport_t* const inst);
+    const zportZeroCopyHandle_t (* const zcReserve)(zport_t* const inst, const uint8_t** bufPtr, uint16_t* const lenPtr);
     int (* const zcSend)(zport_t* const inst, zportZeroCopyHandle_t const hnd);
-    zportZeroCopyHandle_t (* const zcReceive)(zport_t* const inst);
+    const zportZeroCopyHandle_t (* const zcReceive)(zport_t* const inst, const uint8_t** bufPtr, uint16_t* const lenPtr);
     int (* const zcRelease)(zport_t* const inst, zportZeroCopyHandle_t const hnd);
     int (* const send)(zport_t* const inst, uint8_t* const buf, uint16_t len);
     int (* const receive)(zport_t* const inst, uint8_t** const bufPtr, uint16_t *lenPtr);
