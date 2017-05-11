@@ -35,9 +35,9 @@ extern zbuffer_t* const zbufferCreate(uint16_t index);
 
 typedef struct zbuffer_t
 {
-    int (* const run)(zbuffer_t *inst);
-    const zbufferMessageHandle_t (* const getOutgoingMessage)(zbuffer_t* const inst, uint8_t** bufPtr, uint16_t *bytes);
-    void (* const releaseMessage)(zbuffer_t* const inst, zbufferMessageHandle_t const handle);
+    int (* const run)(const zbuffer_t* const inst);
+    const zbufferMessageHandle_t (* const getOutgoingMessage)(const zbuffer_t* const inst, uint8_t** bufPtr, uint16_t *bytes);
+    void (* const releaseMessage)(const zbuffer_t* const inst, zbufferMessageHandle_t const handle);
 
 } zbuffer_t;
 

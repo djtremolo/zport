@@ -58,9 +58,9 @@ typedef struct
 
 
 /*method implementations*/
-static int myRun(zbuffer_t* const inst);
-static zbufferMessageHandle_t const myGetOutgoingMessage(zbuffer_t* const inst, uint8_t** bufPtr, uint16_t *bytes);
-static void myReleaseMessage(zbuffer_t* const inst, zbufferMessageHandle_t const handle);
+static int myRun(const zbuffer_t* const inst);
+static zbufferMessageHandle_t const myGetOutgoingMessage(const zbuffer_t* const inst, uint8_t** bufPtr, uint16_t *bytes);
+static void myReleaseMessage(const zbuffer_t* const inst, zbufferMessageHandle_t const handle);
 
 /*public interface definition*/
 static const zbuffer_t publicAPI = {.run=&myRun, .getOutgoingMessage=&myGetOutgoingMessage, .releaseMessage=&myReleaseMessage};
@@ -86,7 +86,7 @@ zbuffer_t* const zbufferCreate(uint16_t index)
     return inst;
 }
 
-static int myRun(zbuffer_t* const inst)
+static int myRun(const zbuffer_t* const inst)
 {
     zbufferPrivate_t* const prvInst = (zbufferPrivate_t* const)inst;
 
@@ -95,7 +95,7 @@ static int myRun(zbuffer_t* const inst)
     return 0;
 }
 
-static zbufferMessageHandle_t const myGetOutgoingMessage(zbuffer_t* const inst, uint8_t** bufPtr, uint16_t *bytes)
+static zbufferMessageHandle_t const myGetOutgoingMessage(const zbuffer_t* const inst, uint8_t** bufPtr, uint16_t *bytes)
 {
     zbufferMessageHandle_t hnd = NULL;
     zbufferPrivate_t* const prvInst = (zbufferPrivate_t* const)inst;
@@ -119,7 +119,7 @@ static zbufferMessageHandle_t const myGetOutgoingMessage(zbuffer_t* const inst, 
     return hnd;
 }
 
-static void myReleaseMessage(zbuffer_t* const inst, zbufferMessageHandle_t const handle)
+static void myReleaseMessage(const zbuffer_t* const inst, zbufferMessageHandle_t const handle)
 {
     zbufferPrivate_t* const prvInst = (zbufferPrivate_t* const)inst;
 

@@ -73,9 +73,14 @@ zport_t* const zportCreate(uint16_t index, zbuffer_t* const zch)
 
 int myRun(zport_t* const inst)
 {
-    zportPrivate_t *prvInst = (zportPrivate_t*)inst;
+    zportPrivate_t* const prvInst = (zportPrivate_t*)inst;
+    const zbuffer_t* const buf = prvInst->myBuffer;
     
     DBGPRINT("zport[%d]: myRun called\r\n", prvInst->myIndex);
+
+    prvInst->myBuffer = NULL;
+
+    buf->run(buf);
 
     return 0;
 }
