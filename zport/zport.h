@@ -30,12 +30,21 @@ SOFTWARE.
 
 
 typedef struct zport_t zport_t;
+typedef void* zportZeroCopyHandle_t;
+
 
 extern zport_t* const zportCreate(uint16_t index, zbuffer_t* const zch);
 
 typedef struct zport_t
 {
     int (* const run)(zport_t* const inst);
+    zportZeroCopyHandle_t (* const zcReserve)(zport_t* const inst);
+    int (* const zcSend)(zport_t* const inst, zportZeroCopyHandle_t const hnd);
+    zportZeroCopyHandle_t (* const zcReceive)(zport_t* const inst);
+    int (* const zcRelease)(zport_t* const inst, zportZeroCopyHandle_t const hnd);
+    int (* const send)(zport_t* const inst, uint8_t* const buf, uint16_t len);
+    int (* const receive)(zport_t* const inst, uint8_t** const bufPtr, uint16_t *lenPtr);
+    
 } zport_t;
 
 

@@ -35,10 +35,8 @@ SOFTWARE.
 typedef enum
 {
     ZBUFFER_MSG_STATE_FREE = 0,
-    ZBUFFER_MSG_STATE_READY_TO_BE_SENT,
     ZBUFFER_MSG_STATE_RESERVED   
 } zbufferMessageState_t;
-
 
 typedef struct
 {
@@ -59,11 +57,11 @@ typedef struct
 
 /*method implementations*/
 static int myRun(const zbuffer_t* const inst);
-static zbufferMessageHandle_t const myGetOutgoingMessage(const zbuffer_t* const inst, uint8_t** bufPtr, uint16_t *bytes);
+static zbufferMessageHandle_t const myReserveMessage(const zbuffer_t* const inst, uint8_t** const bufPtr, uint16_t* const maxLen);
 static void myReleaseMessage(const zbuffer_t* const inst, zbufferMessageHandle_t const handle);
 
 /*public interface definition*/
-static const zbuffer_t publicAPI = {.run=&myRun, .getOutgoingMessage=&myGetOutgoingMessage, .releaseMessage=&myReleaseMessage};
+static const zbuffer_t publicAPI = {.run=&myRun, .reserveMessage=&myReserveMessage, .releaseMessage=&myReleaseMessage};
 
 /*instance list (allocated staticly to avoid dynamic allocation)*/
 static zbufferPrivate_t instances[ZBUFFER_INSTANCES_COUNT];
@@ -95,21 +93,21 @@ static int myRun(const zbuffer_t* const inst)
     return 0;
 }
 
-static zbufferMessageHandle_t const myGetOutgoingMessage(const zbuffer_t* const inst, uint8_t** bufPtr, uint16_t *bytes)
+static zbufferMessageHandle_t const myReserveMessage(const zbuffer_t* const inst, uint8_t** const bufPtr, uint16_t* const maxLen)
 {
     zbufferMessageHandle_t hnd = NULL;
     zbufferPrivate_t* const prvInst = (zbufferPrivate_t* const)inst;
 
-    DBGPRINT("zbuffer[%d]: myGetOutgoingMessage called\r\n", prvInst->myIndex);
+    DBGPRINT("zbuffer[%d]: myReserveMessage called\r\n", prvInst->myIndex);
 
     if(prvInst)
     {
         zbufferMessage_t *m = &(prvInst->myMessage);
 
-        if(m->state == ZBUFFER_MSG_STATE_READY_TO_BE_SENT)
+        if(m->state == ZBUFFER_MSG_STATE_FREE)
         {
             m->state = ZBUFFER_MSG_STATE_RESERVED;
-            *bytes = m->length;
+            *maxLen = m->length;
             *bufPtr = m->buf;
 
             hnd = (zbufferMessageHandle_t)m;
@@ -138,25 +136,3 @@ static void myReleaseMessage(const zbuffer_t* const inst, zbufferMessageHandle_t
     return;
 }
 
-
-static int mySetOutgoingMessage(zbuffer_t* const inst, uint8_t const *buf, uint16_t len)
-{
-    int ret = -1;
-    zbufferPrivate_t* const prvInst = (zbufferPrivate_t* const)inst;
-
-    DBGPRINT("zbuffer[%d]: mySetOutgoingMessage called\r\n", prvInst->myIndex);
-
-    if(prvInst)
-    {
-        zbufferMessage_t *m = &(prvInst->myMessage);
-
-        if(m->state == ZBUFFER_MSG_STATE_FREE)
-        {
-            /*TODO*/
-            m->state = ZBUFFER_MSG_STATE_READY_TO_BE_SENT;
-            ret = 0;
-        }
-    }
-
-    return ret;
-}

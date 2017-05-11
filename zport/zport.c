@@ -31,8 +31,6 @@ SOFTWARE.
 #define DBGPRINT()
 #endif
 
-
-
 typedef struct
 {
     zport_t publicAPI;   /*placeholder for public interface*/
@@ -42,10 +40,19 @@ typedef struct
     zbuffer_t *myBuffer;
 } zportPrivate_t;
 
-
+/*method prototypes*/
 static int myRun(zport_t* const inst);
+static zportZeroCopyHandle_t myZcReserve(zport_t* const inst);
+static int myZcSend(zport_t* const inst, zportZeroCopyHandle_t const hnd);
+static zportZeroCopyHandle_t myZcReceive(zport_t* const inst);
+static int myZcRelease(zport_t* const inst, zportZeroCopyHandle_t const hnd);
+static int mySend(zport_t* const inst, uint8_t* const buf, uint16_t len);
+static int myReceive(zport_t* const inst, uint8_t** const bufPtr, uint16_t *lenPtr);
 
-static const zport_t publicAPI = {.run=&myRun};
+/*definition of the user API*/
+static const zport_t publicAPI = {.run=&myRun, .zcReserve=&myZcReserve, .zcSend=&myZcSend, .zcReserve=&myZcReceive, .zcRelease=&myZcRelease, .send=&mySend, .receive=&myReceive};
+
+/*storage area for the zport instances*/
 static zportPrivate_t instances[ZPORT_INSTANCES_COUNT];
 
 
@@ -71,7 +78,7 @@ zport_t* const zportCreate(uint16_t index, zbuffer_t* const zch)
     return inst;
 }
 
-int myRun(zport_t* const inst)
+static int myRun(zport_t* const inst)
 {
     zportPrivate_t* const prvInst = (zportPrivate_t*)inst;
     const zbuffer_t* const buf = prvInst->myBuffer;
@@ -85,3 +92,42 @@ int myRun(zport_t* const inst)
     return 0;
 }
 
+static zportZeroCopyHandle_t myZcReserve(zport_t* const inst)
+{
+    zportZeroCopyHandle_t hnd = NULL;
+
+    return hnd;
+}
+
+static int myZcSend(zport_t* const inst, zportZeroCopyHandle_t const hnd)
+{
+    int ret = -1;
+
+    return ret;
+}
+
+static zportZeroCopyHandle_t myZcReceive(zport_t* const inst)
+{
+    zportZeroCopyHandle_t hnd = NULL;
+
+    return hnd;
+}
+
+static int myZcRelease(zport_t* const inst, zportZeroCopyHandle_t const hnd)
+{
+
+}
+
+static int mySend(zport_t* const inst, uint8_t* const buf, uint16_t len)
+{
+    int ret = -1;
+
+    return ret;
+}
+
+static int myReceive(zport_t* const inst, uint8_t** const bufPtr, uint16_t *lenPtr)
+{
+    int ret = -1;
+
+    return ret;
+}
