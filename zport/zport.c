@@ -58,20 +58,20 @@ static const zport_t publicAPI = {.run=&myRun, .zcReserve=&myZcReserve, .zcSend=
 static zportPrivate_t instances[ZPORT_INSTANCES_COUNT];
 
 
-zport_t* const zportCreate(uint16_t index, zbuffer_t* const zch)
+zport_t* const zportCreate(uint16_t index, zbuffer_t* const zbuf)
 {
     zport_t *inst = NULL;
 
     if(index < ZPORT_INSTANCES_COUNT)
     {
-        if(zch)
+        if(zbuf)
         {
             zportPrivate_t *prvInst = &(instances[index]);
 
             memcpy(&(prvInst->publicAPI), (void*)&publicAPI, sizeof(zport_t));
 
             prvInst->myIndex = index;  
-            prvInst->myBuffer = zch; 
+            prvInst->myBuffer = zbuf; 
 
             inst = &(prvInst->publicAPI);
         }

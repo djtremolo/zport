@@ -33,7 +33,7 @@ typedef struct zport_t zport_t;
 typedef void* zportZeroCopyHandle_t;
 
 
-extern zport_t* const zportCreate(uint16_t index, zbuffer_t* const zch);
+extern zport_t* const zportCreate(uint16_t index, zbuffer_t* const zbuf);
 
 typedef struct zport_t
 {
