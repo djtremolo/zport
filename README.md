@@ -14,12 +14,36 @@ The nodes communicating with each other must be cofigured similarly. For example
 ## Interfaces
 The *zport* instance fetches the upper layer message frames from the *session* layer (OSI L5) using the provided target adaptation interface. The protocol uses *network* layer (OSI L3) for sending/receiving protocol messages (containing fragments of the user messages with some protocol status information).
 
-# Target adaptation
-## zportReserveMessage
-This function gets a message from user side pool. The functionality can be either self-implemented or by help of the *zchannel* module. 
+# User Interface
+## zportCreate
+This function creates a new *zport* instance. The instances are stored in a fixed-size pool so no dynamic memory allocation is done. Returns the handle to the created *zport* instance. The handle can then be used by calling its member functions.
 ```c
+#include "zport.h"
 
+void foo()
+{
+    zport_t* const zp = zportCreate(0);
+
+    if(zp != NULL)
+    {
+        uint8_t* msg;
+        uint16_t maxLen;
+        const zportZeroCopyHandle_t zcHnd = nodeA->zcReserve(nodeA, &msg, &maxLen);
+
+        if(zcHnd != NULL)
+        {
+            /*TODO: fill in the message payload in msg, as much as maxLen bytes*/
+            /* ... */
+
+            /*send message*/
+            nodeA->zcSend(nodeA, zcHnd);
+        }
+    }
+}
 ```
+
+## zcReserve
+This method reserves a message slot from the internal pool and returns the handle to it. The handle must then be used when sending or releasing the message for reusing. The message payload pointer and maximum payload size is returned via the parameters.
 
 ## zportPutMessage
 

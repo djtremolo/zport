@@ -42,9 +42,9 @@ typedef struct
 
 /*method prototypes*/
 static int myRun(zport_t* const inst);
-static const zportZeroCopyHandle_t myZcReserve(zport_t* const inst, const uint8_t** bufPtr, uint16_t* const lenPtr);
+static const zportZeroCopyHandle_t myZcReserve(zport_t* const inst, uint8_t** bufPtr, uint16_t* const lenPtr);
 static int myZcSend(zport_t* const inst, zportZeroCopyHandle_t const hnd);
-static const zportZeroCopyHandle_t myZcReceive(zport_t* const inst, const uint8_t** bufPtr, uint16_t* const lenPtr);
+static const zportZeroCopyHandle_t myZcReceive(zport_t* const inst, uint8_t** bufPtr, uint16_t* const lenPtr);
 static int myZcRelease(zport_t* const inst, zportZeroCopyHandle_t const hnd);
 
 
@@ -94,7 +94,7 @@ static int myRun(zport_t* const inst)
     return 0;
 }
 
-static const zportZeroCopyHandle_t myZcReserve(zport_t* const inst, const uint8_t** bufPtr, uint16_t* const lenPtr)
+static const zportZeroCopyHandle_t myZcReserve(zport_t* const inst, uint8_t** bufPtr, uint16_t* const lenPtr)
 {
     zportPrivate_t* const prvInst = (zportPrivate_t*)inst;
     zportZeroCopyHandle_t hnd = NULL;
@@ -119,7 +119,7 @@ static int myZcSend(zport_t* const inst, zportZeroCopyHandle_t const hnd)
     return ret;
 }
 
-static const zportZeroCopyHandle_t myZcReceive(zport_t* const inst, const uint8_t** bufPtr, uint16_t* const lenPtr)
+static const zportZeroCopyHandle_t myZcReceive(zport_t* const inst, uint8_t** bufPtr, uint16_t* const lenPtr)
 {
     zportPrivate_t* const prvInst = (zportPrivate_t*)inst;
     zportZeroCopyHandle_t hnd = NULL;
