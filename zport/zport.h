@@ -26,12 +26,12 @@ SOFTWARE.
 */
 
 #include "ztarget.h"
-#include "zchannel.h"
+#include "zbuffer.h"
 
 
 typedef struct zport_t zport_t;
 
-extern zport_t* const zportCreate(uint16_t index, zchannel_t* const zch);
+extern zport_t* const zportCreate(uint16_t index, zbuffer_t* const zch);
 
 typedef struct zport_t
 {

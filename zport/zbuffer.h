@@ -1,5 +1,5 @@
-#ifndef __ZCHANNEL_H__
-#define __ZCHANNEL_H__
+#ifndef __ZBUFFER_H__
+#define __ZBUFFER_H__
 
 /*
 MIT License
@@ -27,19 +27,19 @@ SOFTWARE.
 
 #include "ztarget.h"
 
-typedef void* zchannelMessageHandle_t;
+typedef void* zbufferMessageHandle_t;
 
-typedef struct zchannel_t zchannel_t;
+typedef struct zbuffer_t zbuffer_t;
 
-extern zchannel_t* const zchannelCreate(uint16_t index);
+extern zbuffer_t* const zbufferCreate(uint16_t index);
 
-typedef struct zchannel_t
+typedef struct zbuffer_t
 {
-    int (* const run)(zchannel_t *inst);
-    const zchannelMessageHandle_t (* const getOutgoingMessage)(zchannel_t* const inst, uint8_t** bufPtr, uint16_t *bytes);
-    void (* const releaseMessage)(zchannel_t* const inst, zchannelMessageHandle_t const handle);
+    int (* const run)(zbuffer_t *inst);
+    const zbufferMessageHandle_t (* const getOutgoingMessage)(zbuffer_t* const inst, uint8_t** bufPtr, uint16_t *bytes);
+    void (* const releaseMessage)(zbuffer_t* const inst, zbufferMessageHandle_t const handle);
 
-} zchannel_t;
+} zbuffer_t;
 
 
 

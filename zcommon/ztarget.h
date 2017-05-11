@@ -33,11 +33,11 @@ SOFTWARE.
 #define ZPORT_DEBUG                 true
 #define ZPORT_INSTANCES_COUNT       2
 
-#define ZCHANNEL_DEBUG              true
-#define ZCHANNEL_INSTANCES_COUNT    2
+#define ZBUFFER_DEBUG              true
+#define ZBUFFER_INSTANCES_COUNT    2
 
 
-#define ZCHANNEL_MSG_MAX            1
+#define ZBUFFER_MSG_MAX            1
 
 
 void* memcpy(void *dst, void *src, size_t sz);

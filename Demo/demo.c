@@ -23,7 +23,7 @@ SOFTWARE.
 */
 
 #include "zport.h"
-#include "zchannel.h"
+#include "zbuffer.h"
 
 #include "stdio.h"
 
@@ -32,8 +32,8 @@ int main(int argc, char* argv[]);
 
 int main(int argc, char* argv[])
 {
-    zchannel_t* const ch0 = zchannelCreate(0);
-    zchannel_t* const ch1 = zchannelCreate(1);
+    zbuffer_t* const ch0 = zbufferCreate(0);
+    zbuffer_t* const ch1 = zbufferCreate(1);
     zport_t* const nodeA = zportCreate(0, ch0);
     zport_t* const nodeB = zportCreate(1, ch1);
 
