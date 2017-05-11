@@ -28,7 +28,7 @@ void foo()
     {
         uint8_t* msg;
         uint16_t maxLen;
-        const zportZeroCopyHandle_t zcHnd = nodeA->zcReserve(nodeA, &msg, &maxLen);
+        const zportZeroCopyHandle_t zcHnd = zp->zcReserve(zp, &msg, &maxLen);
 
         if(zcHnd != NULL)
         {
@@ -36,7 +36,7 @@ void foo()
             /* ... */
 
             /*send message*/
-            nodeA->zcSend(nodeA, zcHnd);
+            zp->zcSend(zp, zcHnd);
         }
     }
 }
