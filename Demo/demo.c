@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
         uint16_t maxLen;
         const zportZeroCopyHandle_t zcHnd = nodeA->zcReserve(nodeA, &msg, &maxLen);
 
-        printf("hnd = 0x%08X, msg = 0x%08X, maxLen = %d\r\n", msg, maxLen);
+        printf("hnd = %p, msg = %p, maxLen = %d\r\n", zcHnd, msg, maxLen);
 
         msg[1] = 'j';
         nodeA->zcSend(nodeA, zcHnd);
